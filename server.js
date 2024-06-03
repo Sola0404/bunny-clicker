@@ -1,21 +1,26 @@
 import express from 'express';
 const app = express();
-
 app.use(express.json());
 
 import morgan from "morgan";
-app.use(morgan("dev"));
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+import * as dotenv from "dotenv";
+dotenv.config();
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
-app.post("/", (req, res) => {
-  console.log(req);
+import mongoose from 'mongoose';
+mongoose
 
-  res.json({ message: "Data received", data: req.body });
-});
+const port = process.env.PORT || 5100;
 
-app.listen(5100, () => {
-  console.log('Server is running on http://localhost:5100 💗');
-});
+try {
+  await mongoose.connect(process.env.MONGO_URL);
+  app.listen(port, () => {
+    console.log(`server running on Port ${port}`);
+  });
+} catch (error) {
+  console.log(error);
+  process.exit(1);
+}
