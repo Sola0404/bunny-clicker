@@ -45,8 +45,4 @@ Icons are sourced from Flaticon.
 ## 📜 License
 This project is licensed under the MIT License.
 
-<p align="center">
-  <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Cute bunny" width="200"/>
-</p>
 <p align="center">Happy Clicking! 🐇</p>
-```
