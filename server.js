@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import express from 'express';
 const app = express();
 app.use(express.json());
@@ -11,12 +13,35 @@ if (process.env.NODE_ENV === "development") {
 }
 
 import mongoose from 'mongoose';
-mongoose
+
+mongoose.connect(process.env.MONGO_URL);
+
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  score: Number,
+  scorePerSecond: Number,
+  items: Array,
+});
+
+const User = mongoose.model("User", userSchema);
+
+app.post('/register', async (req, res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const user = new User({
+    username: req.body.username,
+    password: hashedPassword,
+    score: 0,
+    scorePerSecond: 0,
+    items: [],
+  });
+  await user.save();
+  res.status(201).send("User registered");
+});
 
 const port = process.env.PORT || 5100;
 
 try {
-  await mongoose.connect(process.env.MONGO_URL);
   app.listen(port, () => {
     console.log(`server running on Port ${port}`);
   });
@@ -24,3 +49,4 @@ try {
   console.log(error);
   process.exit(1);
 }
+
