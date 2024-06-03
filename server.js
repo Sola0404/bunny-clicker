@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 app.post('/register', async (req, res) => {
+  // check if the username already exists
+  const existingUser = await User.findOne({ username: req.body.username });
+  if (existingUser) {
+    return res.status(400).send("Username already exists");
+  }
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const user = new User({
     username: req.body.username,
@@ -37,6 +42,16 @@ app.post('/register', async (req, res) => {
   });
   await user.save();
   res.status(201).send("User registered");
+});
+
+app.post('/login', async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (user && bcrypt.compare(req.body.password, user.password)) {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res.json({ token, username: user.username });
+  } else {
+    res.status(400).send("Invalid username or password");
+  }
 });
 
 const port = process.env.PORT || 5100;
