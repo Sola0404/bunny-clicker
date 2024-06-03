@@ -1,4 +1,7 @@
 <h1 align="center">🐰 Bunny Clicker! 🐰</h1>
+<br/>
+<p align="center"><em>Still Under Construction...⏰</em></p>
+<br/>
 
 <p align="center"><em>A simple and fun idle game inspired by Cookie Clicker</em></p>
 <p align="center"><em>Created with love by a bunny enthusiast ❤️</em></p>
@@ -19,6 +22,7 @@
 
 ## 🚀 Getting Started
 Follow these steps to get the game up and running on your local machine.
+It will be simplified once the back end is implemented! 😈
 
 ### Prerequisites
 - Node.js
