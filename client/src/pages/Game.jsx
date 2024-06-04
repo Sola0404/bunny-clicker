@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import ScoreBoard from "../components/ScoreBoard";
-import ClickerContainer from "../components/ClickerContainer";
 import itemsData from "../data/itemsData";
-import ShopContainer from "../components/ShopContainer";
-import UpgradeContainer from "../components/UpgradeContainer";
+import {
+	ScoreBoard,
+	ClickerContainer,
+	ShopContainer,
+	UpgradeContainer,
+} from "../components";
 
 const Game = () => {
 	const [score, setScore] = useState(() => {
