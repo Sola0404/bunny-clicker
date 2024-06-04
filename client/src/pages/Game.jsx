@@ -10,9 +10,18 @@ import customFetch from "../utils/customFetch";
 import { redirect } from "react-router-dom";
 
 const Game = () => {
-	const [score, setScore] = useState(0);
-	const [scorePerSecond, setScorePerSecond] = useState(0);
-	const [items, setItems] = useState(itemsData);
+	const [score, setScore] = useState(() => {
+		const saveGame = localStorage.getItem("saveGame");
+		return saveGame ? JSON.parse(saveGame).score : 0;
+	});
+	const [scorePerSecond, setScorePerSecond] = useState(() => {
+		const saveGame = localStorage.getItem("saveGame");
+		return saveGame ? JSON.parse(saveGame).scorePerSecond : 0;
+	});
+	const [items, setItems] = useState(() => {
+		const saveGame = localStorage.getItem("saveGame");
+		return saveGame ? JSON.parse(saveGame).items : itemsData;
+	});
 
 	const clickingPower = 1;
 
@@ -31,26 +40,31 @@ const Game = () => {
 		setScorePerSecond(newScorePerSecond);
 	}, [items]);
 
-	const loadGame = async () => {
+	const loadGameFromServer = async () => {
 		try {
 			// if there is a user logged in
 			const response = await customFetch.get("/load");
 			const { score, scorePerSecond, items } = response.data;
 			console.log(response.data);
 			setScore(score);
+			setScorePerSecond(scorePerSecond);
 			setItems(items);
 		} catch (error) {
-			// Read from local storage if not login
+			// if not login
+			redirect("/login");
+		}
+	};
+
+	useEffect(() => {
+		// Read from local storage in default
+		const loadGame = () => {
 			const saveGame = localStorage.getItem("saveGame");
 			if (saveGame) {
 				const saveData = JSON.parse(saveGame);
 				setScore(saveData.score);
 				setItems(saveData.items);
 			}
-		}
-	};
-
-	useEffect(() => {
+		};
 		loadGame();
 	}, []);
 
@@ -103,10 +117,13 @@ const Game = () => {
 				<ClickerContainer addToScore={addToScore} clickingPower={clickingPower} />
 				<div className="section-footer">
 					<button className="reset-btn" onClick={saveGameToServer}>
-						Save Game
+						Save
+					</button>
+					<button className="reset-btn" onClick={loadGameFromServer}>
+						Load
 					</button>
 					<button className="reset-btn" onClick={resetGame}>
-						Reset Game
+						Reset
 					</button>
 				</div>
 			</div>
