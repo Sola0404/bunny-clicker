@@ -1,3 +1,4 @@
+import customFetch from "../utils/customFetch";
 import {
 	loadGameFromServer,
 	saveGameToServer,
@@ -13,6 +14,10 @@ const MenuContainer = ({
 	setScorePerSecond,
 	setItems,
 }) => {
+	const logout = async () => {
+		await customFetch.get("/logout");
+		console.log("logout successful");
+	};
 	return (
 		<div className="menu-container">
 			<button className="menu-btn">Menu</button>
@@ -42,7 +47,9 @@ const MenuContainer = ({
 				>
 					Reset
 				</button>
-				<button className="menu-item">Logout</button>
+				<button className="menu-item" onClick={() => logout()}>
+					Logout
+				</button>
 			</div>
 		</div>
 	);
