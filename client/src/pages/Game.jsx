@@ -7,37 +7,12 @@ import {
 	UpgradeContainer,
 } from "../components";
 import customFetch from "../utils/customFetch";
-import { redirect, useLoaderData } from "react-router-dom";
-
-export const loader = async () => {
-	try {
-		// if there is a user logged in
-		const response = await customFetch.get("/load");
-		const { score, scorePerSecond, items } = response.data;
-		console.log(response.data);
-		return { score, scorePerSecond, items };
-	} catch (error) {
-		// Not login
-		// if there is game data in local storage
-		const saveGame = localStorage.getItem("saveGame");
-		if (saveGame) {
-			return JSON.parse(saveGame);
-		}
-		// if there is no game data in local storage
-		return { score: 0, scorePerSecond: 0, items: itemsData };
-	}
-};
+import { redirect } from "react-router-dom";
 
 const Game = () => {
-	const {
-		score: initialScore,
-		scorePerSecond: initialScorePerSecond,
-		items: initialItems,
-	} = useLoaderData();
-
-	const [score, setScore] = useState(initialScore);
-	const [scorePerSecond, setScorePerSecond] = useState(initialScorePerSecond);
-	const [items, setItems] = useState(initialItems);
+	const [score, setScore] = useState(0);
+	const [scorePerSecond, setScorePerSecond] = useState(0);
+	const [items, setItems] = useState(itemsData);
 
 	const clickingPower = 1;
 
@@ -56,6 +31,29 @@ const Game = () => {
 		setScorePerSecond(newScorePerSecond);
 	}, [items]);
 
+	const loadGame = async () => {
+		try {
+			// if there is a user logged in
+			const response = await customFetch.get("/load");
+			const { score, scorePerSecond, items } = response.data;
+			console.log(response.data);
+			setScore(score);
+			setItems(items);
+		} catch (error) {
+			// Read from local storage if not login
+			const saveGame = localStorage.getItem("saveGame");
+			if (saveGame) {
+				const saveData = JSON.parse(saveGame);
+				setScore(saveData.score);
+				setItems(saveData.items);
+			}
+		}
+	};
+
+	useEffect(() => {
+		loadGame();
+	}, []);
+
 	useEffect(() => {
 		const saveGame = () => {
 			localStorage.setItem(
@@ -68,7 +66,9 @@ const Game = () => {
 
 	const saveGameToServer = async () => {
 		try {
-			await customFetch.post("/save", { score, scorePerSecond, items });
+			const requestBody = { score, scorePerSecond, items };
+			console.log(requestBody);
+			await customFetch.post("/save", requestBody);
 		} catch (error) {
 			console.error(error);
 			redirect("/login");
