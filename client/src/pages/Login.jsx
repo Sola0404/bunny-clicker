@@ -18,13 +18,23 @@ export const action = async ({ request }) => {
 
 const Login = () => {
 	return (
-		<div>
+		<div className="form-container">
 			<Form method="post">
-				<div>Login</div>
-				<input type="text" name="username" placeholder="Username" />
-				<input type="password" name="password" placeholder="Password" />
+				<div className="form-title">Login</div>
+				<input
+					type="text"
+					name="username"
+					placeholder="Username"
+					className="form-input"
+				/>
+				<input
+					type="password"
+					name="password"
+					placeholder="Password"
+					className="form-input"
+				/>
 				<SubmitBtn />
-				<p>
+				<p className="link">
 					Not having an account? <Link to="/register">Register</Link>
 				</p>
 			</Form>

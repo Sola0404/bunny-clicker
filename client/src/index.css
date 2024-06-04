@@ -221,3 +221,61 @@ h1 {
 	background-color: var(--dark-hover-color);
 	color: white;
 }
+
+/* Styles for login/register */
+.form-container {
+	max-width: 400px;
+	margin: 100px auto;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+.form-title {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.form-input {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc; /* Light gray border */
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 10px;
+	background-color: var(--content-background-color);
+	color: #fff;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.submit-btn:hover {
+	background-color: var(--dark-hover-color);
+	transition: all 0.2s ease-in-out;
+}
+
+.link {
+	text-align: center;
+}
+
+.link a {
+	color: var(--primary-text-color);
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.link a:hover {
+	text-decoration: underline;
+	color: var(--dark-hover-color);
+	transition: all 0.2s ease-in-out;
+}
