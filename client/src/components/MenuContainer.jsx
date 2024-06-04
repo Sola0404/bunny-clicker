@@ -3,6 +3,7 @@ import {
 	saveGameToServer,
 	resetGame,
 } from "../utils/gameUtils";
+import { Link } from "react-router-dom";
 
 const MenuContainer = ({
 	score,
@@ -17,8 +18,12 @@ const MenuContainer = ({
 			<button className="menu-btn">Menu</button>
 
 			<div className="dropdown-menu">
-				<button className="menu-item">Register</button>
-				<button className="menu-item">Login</button>
+				<Link to="/register" style={{ textDecoration: "none" }}>
+					<button className="menu-item">Register</button>
+				</Link>
+				<Link to="/login" style={{ textDecoration: "none" }}>
+					<button className="menu-item">Login</button>
+				</Link>
 				<button
 					className="menu-item"
 					onClick={() => saveGameToServer(score, scorePerSecond, items)}
