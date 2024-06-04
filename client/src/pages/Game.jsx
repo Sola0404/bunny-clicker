@@ -1,23 +1,19 @@
 import { useState, useEffect } from "react";
-import itemsData from "../utils/itemsData";
 import {
 	ScoreBoard,
 	ClickerContainer,
 	ShopContainer,
 	UpgradeContainer,
 } from "../components";
-import customFetch from "../utils/customFetch";
-import { redirect } from "react-router-dom";
+import {
+	loadGameFromLocalStorage,
+	loadGameFromServer,
+	saveGameToLocalStorage,
+	saveGameToServer,
+	resetGame,
+} from "../utils/gameUtils";
 
 const Game = () => {
-	const loadGameFromLocalStorage = () => {
-		const saveGame = localStorage.getItem("saveGame");
-		if (saveGame) {
-			return JSON.parse(saveGame);
-		}
-		return { score: 0, scorePerSecond: 0, items: itemsData };
-	};
-
 	const initialGameState = loadGameFromLocalStorage();
 
 	const [score, setScore] = useState(initialGameState.score);
@@ -27,44 +23,6 @@ const Game = () => {
 	const [items, setItems] = useState(initialGameState.items);
 
 	const clickingPower = 1;
-
-	const loadGameFromServer = async () => {
-		try {
-			const response = await customFetch.get("/load");
-			const { score, scorePerSecond, items } = response.data;
-			setScore(score);
-			setScorePerSecond(scorePerSecond);
-			setItems(items);
-		} catch (error) {
-			redirect("/login");
-		}
-	};
-
-	const saveGameToLocalStorage = () => {
-		localStorage.setItem(
-			"saveGame",
-			JSON.stringify({ score, scorePerSecond, items })
-		);
-	};
-
-	const saveGameToServer = async () => {
-		try {
-			const requestBody = { score, scorePerSecond, items };
-			await customFetch.post("/save", requestBody);
-		} catch (error) {
-			console.error(error);
-			redirect("/login");
-		}
-	};
-
-	const resetGame = () => {
-		if (window.confirm("Are you sure you want to reset the game?")) {
-			localStorage.removeItem("saveGame");
-			setScore(0);
-			setScorePerSecond(0);
-			setItems(itemsData);
-		}
-	};
 
 	// Update scorePerSecond every time items change
 	useEffect(() => {
@@ -90,7 +48,7 @@ const Game = () => {
 
 	// Save game data to local storage when score or items change
 	useEffect(() => {
-		saveGameToLocalStorage();
+		saveGameToLocalStorage(score, scorePerSecond, items);
 	}, [score, items]);
 
 	const addToScore = (value) => {
@@ -111,13 +69,22 @@ const Game = () => {
 				<br />
 				<ClickerContainer addToScore={addToScore} clickingPower={clickingPower} />
 				<div className="section-footer">
-					<button className="reset-btn" onClick={saveGameToServer}>
+					<button
+						className="reset-btn"
+						onClick={() => saveGameToServer(score, scorePerSecond, items)}
+					>
 						Save
 					</button>
-					<button className="reset-btn" onClick={loadGameFromServer}>
+					<button
+						className="reset-btn"
+						onClick={() => loadGameFromServer(setScore, setScorePerSecond, setItems)}
+					>
 						Load
 					</button>
-					<button className="reset-btn" onClick={resetGame}>
+					<button
+						className="reset-btn"
+						onClick={() => resetGame(setScore, setScorePerSecond, setItems)}
+					>
 						Reset
 					</button>
 				</div>
