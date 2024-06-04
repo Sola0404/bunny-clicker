@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import itemsData from "../data/itemsData";
+import itemsData from "../utils/itemsData";
 import {
 	ScoreBoard,
 	ClickerContainer,

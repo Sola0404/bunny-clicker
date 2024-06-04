@@ -20,11 +20,11 @@ import mongoose from 'mongoose';
 
 mongoose.connect(process.env.MONGO_URL);
 
-app.post('/register', register);
-app.post('/login', login);
-app.get('/logout', logout);
-app.post('/save', authenticateUser, saveGame);
-app.get('/load', authenticateUser, loadGame);
+app.post('/api/register', register);
+app.post('/api/login', login);
+app.get('/api/logout', logout);
+app.post('/api/save', authenticateUser, saveGame);
+app.get('/api/load', authenticateUser, loadGame);
 
 const port = process.env.PORT || 5100;
 
