@@ -4,13 +4,11 @@ import {
 	ClickerContainer,
 	ShopContainer,
 	UpgradeContainer,
+	MenuContainer,
 } from "../components";
 import {
 	loadGameFromLocalStorage,
-	loadGameFromServer,
 	saveGameToLocalStorage,
-	saveGameToServer,
-	resetGame,
 } from "../utils/gameUtils";
 
 const Game = () => {
@@ -63,31 +61,20 @@ const Game = () => {
 
 	return (
 		<div>
+			<MenuContainer
+				score={score}
+				scorePerSecond={scorePerSecond}
+				items={items}
+				setScore={setScore}
+				setScorePerSecond={setScorePerSecond}
+				setItems={setItems}
+			/>
 			<div className="section-left">
 				<h1>Bunny Clicker</h1>
 				<ScoreBoard score={score} scorePerSecond={scorePerSecond} />
 				<br />
 				<ClickerContainer addToScore={addToScore} clickingPower={clickingPower} />
-				<div className="section-footer">
-					<button
-						className="reset-btn"
-						onClick={() => saveGameToServer(score, scorePerSecond, items)}
-					>
-						Save
-					</button>
-					<button
-						className="reset-btn"
-						onClick={() => loadGameFromServer(setScore, setScorePerSecond, setItems)}
-					>
-						Load
-					</button>
-					<button
-						className="reset-btn"
-						onClick={() => resetGame(setScore, setScorePerSecond, setItems)}
-					>
-						Reset
-					</button>
-				</div>
+				<div className="section-footer">{/* TODO: Add a footer */}</div>
 			</div>
 
 			<div className="section-right">
