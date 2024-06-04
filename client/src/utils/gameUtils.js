@@ -1,6 +1,6 @@
 import customFetch from "../utils/customFetch";
-import { redirect } from "react-router-dom";
 import itemsData from "./itemsData.js";
+import { toast } from "react-toastify";
 
 export const loadGameFromLocalStorage = () => {
   const saveGame = localStorage.getItem("saveGame");
@@ -17,8 +17,9 @@ export const loadGameFromServer = async (setScore, setScorePerSecond, setItems) 
     setScore(score);
     setScorePerSecond(scorePerSecond);
     setItems(items);
+    toast.success("Game loaded successfully!");
   } catch (error) {
-    redirect("/login");
+    toast.error("Failed to load game! You need to login first.");
   }
 };
 
@@ -33,9 +34,9 @@ export const saveGameToServer = async (score, scorePerSecond, items) => {
   try {
     const requestBody = { score, scorePerSecond, items };
     await customFetch.post("/save", requestBody);
+    toast.success("Game saved successfully!");
   } catch (error) {
-    console.error(error);
-    redirect("/login");
+    toast.error("Failed to save game! You need to login first.");
   }
 };
 
@@ -45,5 +46,11 @@ export const resetGame = (setScore, setScorePerSecond, setItems) => {
     setScore(0);
     setScorePerSecond(0);
     setItems(itemsData);
+    toast.success("Game reset successfully!");
   }
+};
+
+export const logout = async () => {
+  await customFetch.get("/logout");
+  toast.success("Logged out successfully!");
 };

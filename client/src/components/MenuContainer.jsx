@@ -1,8 +1,8 @@
-import customFetch from "../utils/customFetch";
 import {
 	loadGameFromServer,
 	saveGameToServer,
 	resetGame,
+	logout,
 } from "../utils/gameUtils";
 import { Link } from "react-router-dom";
 
@@ -14,10 +14,6 @@ const MenuContainer = ({
 	setScorePerSecond,
 	setItems,
 }) => {
-	const logout = async () => {
-		await customFetch.get("/logout");
-		console.log("logout successful");
-	};
 	return (
 		<div className="menu-container">
 			<button className="menu-btn">Menu</button>
