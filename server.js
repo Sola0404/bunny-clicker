@@ -4,6 +4,11 @@ import { authenticateUser } from './middleware/authMiddleware.js';
 import { saveGame, loadGame } from './controllers/gameController.js';
 import { register, login, logout } from './controllers/authController.js';
 import express from 'express';
+import path from 'path';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 app.use(express.json());
 
@@ -17,6 +22,12 @@ dotenv.config();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
+});
 
 import mongoose from 'mongoose';
 import { validateLoginInput, validateRegisterInput } from './middleware/validationMiddleware.js';
