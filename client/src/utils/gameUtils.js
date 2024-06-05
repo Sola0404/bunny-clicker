@@ -13,13 +13,13 @@ export const loadGameFromLocalStorage = () => {
 export const loadGameFromServer = async (setScore, setScorePerSecond, setItems) => {
   try {
     const response = await customFetch.get("/load");
-    const { score, scorePerSecond, items } = response.data;
+    const { score, scorePerSecond, items } = response.data.game;
     setScore(score);
     setScorePerSecond(scorePerSecond);
     setItems(items);
     toast.success("Game loaded successfully!");
   } catch (error) {
-    toast.error("Failed to load game! You need to login first.");
+    toast.error(error?.response?.data?.msg);
   }
 };
 
@@ -36,7 +36,7 @@ export const saveGameToServer = async (score, scorePerSecond, items) => {
     await customFetch.post("/save", requestBody);
     toast.success("Game saved successfully!");
   } catch (error) {
-    toast.error("Failed to save game! You need to login first.");
+    toast.error(error?.response?.data?.msg);
   }
 };
 

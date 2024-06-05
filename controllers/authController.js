@@ -3,13 +3,9 @@ import { StatusCodes } from "http-status-codes";
 import { createJWT } from "../utils/tokenUtils.js";
 import User from "../models/UserModel.js";
 import Game from "../models/GameModel.js";
+import { UnauthenticatedError } from "../errors/customErrors.js";
 
 export const register = async (req, res) => {
-  // check if the username already exists
-  const existingUser = await User.findOne({ username: req.body.username });
-  if (existingUser) {
-    return res.status(400).send("Username already exists");
-  }
   const hashedPassword = await hashPassword(req.body.password);
   const user = new User({
     username: req.body.username,
@@ -30,7 +26,7 @@ export const login = async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
   const isValidUser = user && (await comparePassword(req.body.password, user.password));
   if (!isValidUser) {
-    return res.status(400).send("Invalid username or password");
+    throw new UnauthenticatedError("Invalid login credentials");
   }
 
   const token = createJWT({ username: user.username, id: user._id });

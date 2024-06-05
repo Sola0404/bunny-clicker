@@ -1,10 +1,11 @@
 import Game from "../models/GameModel.js";
 import { StatusCodes } from "http-status-codes";
+import { NotFoundError } from "../errors/customErrors.js";
 
 export const saveGame = async (req, res) => {
   const game = await Game.findOne({ ownedBy: req.user.id });
   if (!game) {
-    return res.status(404).send("Game not found");
+    throw new NotFoundError("Game not found");
   }
   game.score = req.body.score;
   game.scorePerSecond = req.body.scorePerSecond;
@@ -17,7 +18,7 @@ export const saveGame = async (req, res) => {
 export const loadGame = async (req, res) => {
   const game = await Game.findOne({ ownedBy: req.user.id });
   if (!game) {
-    return res.status(StatusCodes.NOT_FOUND).json({ msg: "Game not found" });
+    throw new NotFoundError("Game not found");
   }
   res.status(StatusCodes.OK).json({ msg: "Game loaded", game: game });
 };

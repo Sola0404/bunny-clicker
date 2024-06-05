@@ -1,3 +1,4 @@
+import "express-async-errors";
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import { authenticateUser } from './middleware/authMiddleware.js';
 import { saveGame, loadGame } from './controllers/gameController.js';
@@ -18,11 +19,12 @@ if (process.env.NODE_ENV === "development") {
 }
 
 import mongoose from 'mongoose';
+import { validateLoginInput, validateRegisterInput } from './middleware/validationMiddleware.js';
 
 mongoose.connect(process.env.MONGO_URL);
 
-app.post('/api/register', register);
-app.post('/api/login', login);
+app.post('/api/register', validateRegisterInput, register);
+app.post('/api/login', validateLoginInput, login);
 app.get('/api/logout', logout);
 app.post('/api/save', authenticateUser, saveGame);
 app.get('/api/load', authenticateUser, loadGame);
