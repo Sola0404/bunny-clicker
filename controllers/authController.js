@@ -1,4 +1,5 @@
 import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
+import { StatusCodes } from "http-status-codes";
 import { createJWT } from "../utils/tokenUtils.js";
 import User from "../models/UserModel.js";
 import Game from "../models/GameModel.js";
@@ -22,7 +23,7 @@ export const register = async (req, res) => {
   });
   await user.save();
   await game.save();
-  res.status(201).send("User registered");
+  res.status(StatusCodes.CREATED).json({ msg: "User created" });
 };
 
 export const login = async (req, res) => {
@@ -41,7 +42,7 @@ export const login = async (req, res) => {
     secure: process.env.NODE_ENV === 'production',
   });
 
-  res.status(200).send("Logged in: " + user.username + " with token: " + token);
+  res.status(StatusCodes.CREATED).json({ msg: "User logged in" });
 };
 
 export const logout = (req, res) => {
@@ -49,5 +50,5 @@ export const logout = (req, res) => {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
-  res.status(200).send("Logged out");
+  res.status(StatusCodes.OK).json({ msg: "User logged out" });
 };
