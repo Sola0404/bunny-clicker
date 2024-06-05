@@ -1,3 +1,4 @@
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import { authenticateUser } from './middleware/authMiddleware.js';
 import { saveGame, loadGame } from './controllers/gameController.js';
 import { register, login, logout } from './controllers/authController.js';
@@ -25,6 +26,8 @@ app.post('/api/login', login);
 app.get('/api/logout', logout);
 app.post('/api/save', authenticateUser, saveGame);
 app.get('/api/load', authenticateUser, loadGame);
+
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
 
