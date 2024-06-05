@@ -21,8 +21,6 @@ if (process.env.NODE_ENV === "development") {
 import mongoose from 'mongoose';
 import { validateLoginInput, validateRegisterInput } from './middleware/validationMiddleware.js';
 
-mongoose.connect(process.env.MONGO_URL);
-
 app.post('/api/register', validateRegisterInput, register);
 app.post('/api/login', validateLoginInput, login);
 app.get('/api/logout', logout);
@@ -34,6 +32,7 @@ app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 5100;
 
 try {
+  mongoose.connect(process.env.MONGO_URL);
   app.listen(port, () => {
     console.log(`server running on Port ${port}`);
   });

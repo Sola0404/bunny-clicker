@@ -1,3 +1,4 @@
+import "express-async-errors";
 import Game from "../models/GameModel.js";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/customErrors.js";
