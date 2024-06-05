@@ -9,44 +9,33 @@
 ---
 
 ## 🌟 Overview
+
 **Bunny Clicker** is an addictive idle game where you click your way to bunny heaven! Accumulate points, unlock upgrades, and watch your bunny empire grow.
 
 ---
 
+## 🚀 Getting Started
+
+[Happy Clicking 🐰!](https://bunny-clicker.onrender.com).
+
+---
+
 ## 🛠️ Technologies Used
+
 - **Vite**
+- **Express**
 - **React.js**
+- **Node.js**
 - **MongoDB**
 
 ---
 
-## 🚀 Getting Started
-Follow these steps to get the game up and running on your local machine.
-It will be simplified once the back end is implemented! 😈
-
-### Prerequisites
-- Node.js
-- npm
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Sola0404/bunny-clicker.git
-2. Navigate to the project directory:
-   ```bash
-   cd bunny-clicker
-3. Install dependencies:
-   ```bash
-   npm run setup-project
-4. Start the game:
-   ```bash
-   cd client && npm run dev
-5. Open your browser and go to http://localhost:5173 to start clicking those bunnies!
-
 ## 🎨 Game Icons
+
 Icons are sourced from Flaticon.
 
-## 📜 License
-This project is licensed under the MIT License.
+---
 
-<p align="center">Happy Clicking! 🐇</p>
+## 📜 License
+
+This project is licensed under the MIT License.
